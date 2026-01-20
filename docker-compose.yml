@@ -10,6 +10,7 @@ services:
     environment:
       - DATABASE_URL=postgresql+asyncpg://postgres:postgres@db:5432/smart_traffic
       - REDIS_URL=redis://redis:6379/0
+      - MCP_URL=http://mcp:8001
     depends_on:
       - db
       - redis
@@ -28,3 +29,13 @@ services:
     ports:
       - "6379:6379"
 
+  mcp:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8001:8001"
+    environment:
+      - DATABASE_URL=postgresql+asyncpg://postgres:postgres@db:5432/smart_traffic
+    depends_on:
+      - db

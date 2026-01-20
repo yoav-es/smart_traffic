@@ -3,7 +3,7 @@ from pydantic import BaseModel
 from typing import Any, Dict, Optional
 import os
 import json
-
+import asyncpg
 from app.api.v1.schemas import EventIn
 from app.ml.classifier import classify
 
@@ -39,9 +39,12 @@ async def classify_by_id(req: ClassifyRequest) -> Dict[str, Any]:
     if not db_url:
         raise HTTPException(status_code=501, detail="DATABASE_URL not configured")
 
-    import asyncpg
 
-    conn = await asyncpg.connect(db_url)
+    # Convert SQLAlchemy URL format (postgresql+asyncpg://...) to asyncpg format (postgresql://...)
+    # asyncpg doesn't understand the +asyncpg driver specifier
+    asyncpg_url = db_url.replace("postgresql+asyncpg://", "postgresql://")
+
+    conn = await asyncpg.connect(asyncpg_url)
     try:
         row = await conn.fetchrow(
             "SELECT id, sensor_id, timestamp, vehicle_count, avg_speed, metadata FROM events WHERE id=$1",
