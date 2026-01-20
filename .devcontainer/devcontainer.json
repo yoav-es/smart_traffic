@@ -1,0 +1,12 @@
+{
+  "name": "smart_traffic-compose",
+  "dockerComposeFile": ["../docker-compose.yml"],
+  "service": "app",
+  "workspaceFolder": "/workspace",
+  "workspaceMount": "source=${localWorkspaceFolder},target=/workspace,type=bind,consistency=delegated",
+  "forwardPorts": [8000],
+  "postCreateCommand": "python -m venv .venv && . .venv/bin/activate && python -m pip install --upgrade pip && pip install --no-cache-dir -r requirements.txt",
+  "shutdownAction": "stopCompose",
+  "remoteUser": "root"
+}
+
