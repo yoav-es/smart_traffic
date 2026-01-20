@@ -7,7 +7,7 @@ import asyncpg
 from app.api.v1.schemas import EventIn
 from app.ml.classifier import classify
 
-app = FastAPI(title="smart_traffic_mcp", version="0.1.0")
+app = FastAPI(title="smart_traffic_mcp", version="0.4.0")
 
 
 class ClassifyRequest(BaseModel):

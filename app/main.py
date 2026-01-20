@@ -18,7 +18,7 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
-app = FastAPI(title="smart_traffic", version="0.1.0")
+app = FastAPI(title="smart_traffic", version="0.4.0")
 
 
 @app.on_event("startup")
